@@ -12,3 +12,6 @@
 .list{
     background: rgb(230, 230, 230);
 }
+input[type=text]{
+    width:100px;
+}

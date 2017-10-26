@@ -1,15 +1,23 @@
-1) Файл user-card.component.html, 5ая строка. Пытаюсь сделать так,
- чтобы кнопка удаления была только тогда, когда выделена карточка.
- <button *ngIf="user.name==selectedName" (click)="deleteUser(user)">delete</button>
- Для этого завел отдельную переменную selectedName
- Соответственно в тс сделал вот так:
+1) В скринкасте про сервисы, когда мы переносим массив из header в service, почему мы переменную
+  _userService определяем в конструкторе, а сам массив определяем в хуке ngOnInit()? Почему мы не
+  можем определить массив например сразу за занесением сервиса в переменную? Вот так:
+  constructor(userService: UserService){
+    this._userService = userService;
 
-   public selectedName: string;
-   public selectUser(name){
-       this.selectedName=name;
-       this.selectedUser.emit();
-   }
+    this.users=userService.getAll();
+    или
+    this.users=this._userService.getAll();
 
-   Правильно ли это? В родительском компоненте есть свойство selectedUser, в котором
-   хранится выбранный объект user, хотелось бы сравнивать с ним, то есть
-   <button *ngIf="user.name==/*parentComponent.*/selectedUser" (click)="deleteUser(user)">delete</button>
+  }
+
+2) В методах(допустим сервиса) в параметрах, если мы передаем объект, тип параметра
+не указывается?
+public remove(user: object){
+
+3) Зачем мы переопределяем массив users:
+   this._userService.add(name);
+   this.users = this._userService.getAll();
+
+4) В TS в массивах нужно иметь именно идентичные по структуре объекты? Я не смог добавить объект,
+пол был указан не в числовом виде(т.е. не obj.sex=1, а obj.sex="1") и вылезала ошибка. Файл
+user.service.ts строка 79(но это не точно), в методе public add(user){};

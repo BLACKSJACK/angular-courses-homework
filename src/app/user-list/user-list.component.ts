@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../user.service";
+import {HttpClientModule} from "@angular/common/http";
 
 @Component({
   selector: 'app-user-list',
@@ -8,73 +10,46 @@ import { Component, OnInit } from '@angular/core';
 export class UserListComponent implements OnInit {
 
   public selectedUser;
-  public users:object[]=[
-    {
-      name: "mr Orange",
-      color:"orange",
-      sex: 1,
-      birthday: "12.01.1990"
+  public users;
+  public newUser={
+      name:"",
+      color:"",
+      sex:1,
+      birthday:"",
+      clean(){
+          this.name="";
+          this.color="";
+          this.sex=1;
+          this.birthday="";
+      }
 
-    },
-    {
-      name: "mr Green",
-      color:"green",
-      sex: 1,
-      birthday: "12.01.1990"
+  };
+  public addNewUser(){
 
-    },
-    {
-      name: "mrs White",
-      color:"white",
-      sex: 0,
-      birthday: "12.01.1990"
+      if(this.newUser.name!=="" &&
+          this.newUser.color!=="" &&
+          (+this.newUser.sex===1 || this.newUser.sex===0) &&
+          this.newUser.birthday!==""){
+          this.newUser.sex=+this.newUser.sex;
+          this._userService.add(this.newUser);
+          this.newUser.clean();
+      }
 
-    },
-    {
-      name: "mr Blue",
-      color:"blue",
-      sex: 1,
-      birthday: "12.01.1990"
-
-    },
-    {
-      name: "mrs Red",
-      color:"red",
-      sex: 0,
-      birthday: "12.01.1990"
-
-    },
-    {
-      name: "mrs Purple",
-      color:"purple",
-      sex: 0,
-      birthday: "12.01.1990"
-
-    },
-    {
-      name: "mr Black",
-      color:"black",
-      sex: 1,
-      birthday: "12.01.1990"
-
-    },
-    {
-      name: "mrs Yellow",
-      color:"yellow",
-      sex: 0,
-      birthday: "12.01.1990"
-
-    }
-  ];
+  }
   public deleteUser(user){
     this.users.splice(this.users.indexOf(user),1);
   }
 
 
 
-  constructor() { }
+
+  constructor(private _userService: UserService,
+  private _http: HttpClientModule) {
+
+  }
 
   ngOnInit() {
+    this.users = this._userService.getAll();
   }
 
 }

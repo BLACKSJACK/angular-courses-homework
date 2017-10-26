@@ -9,5 +9,23 @@
 
 
   </app-user-card>
+  <div class="card">
+    <input type="text"
+           class="name"
+           placeholder="Username"
+           [(ngModel)]="newUser.name">
+
+    <input type="text"
+         class="photo"
+         placeholder="Color"
+         [(ngModel)]="newUser.color">
+      <input type="radio" value=1 [(ngModel)]="newUser.sex">
+      <input type="radio" value=0 [(ngModel)]="newUser.sex">
+    <input type="text"
+           placeholder="Bday"
+    [(ngModel)]="newUser.birthday">
+      <button (click)="addNewUser()">Add!</button>
+
+  </div>
 </div>
 {{selectedUser?.name}}
